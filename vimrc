@@ -1,9 +1,12 @@
+"author zhangjianwai813@gmail.com
+"这篇配置文档献给我认为在我职业生涯中最重要的恩师 oylbin.
 " 不使用兼容vi的模式
 set nocompatible
 set nu
 lang en_US.UTF-8
 language mes en_US.UTF-8
 set langmenu=en_US.UTF-8
+set t_Co=256
 
 " 获取当前路径，将$HOME转化为~
  function! CurDir()
@@ -14,8 +17,9 @@ set langmenu=en_US.UTF-8
 "set iskeyword=@,48-57,_,-,192-255,#
 set iskeyword=@,48-57,_,192-255
 
-if isdirectory("/Users/oylbin/local/oylbin/vim")
-    set runtimepath=/Users/oylbin/local/oylbin/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/oylbin/local/oylbin/vim
+if isdirectory("/Users/yeyongfa")
+    "set runtimepath=/Users/oylbin/local/oylbin/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/oylbin/local/oylbin/vim
+    set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
     filetype off
     " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
     if has("unix")
@@ -23,6 +27,20 @@ if isdirectory("/Users/oylbin/local/oylbin/vim")
     endif
 endif
 
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
+
+"设置vim-airline
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_theme='powerlineish'
+let g:airline_enable_branch     = 1
+let g:airline_enable_syntastic  = 1
+"let g:airline_theme='kolor'
+let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 
 " 自动检测文件类型
 filetype plugin indent on
@@ -48,6 +66,10 @@ set autowrite
 " 在paste模式下粘贴文本，会保留文本原样，不会做自动缩进，自动注释等等处理。
 set pastetoggle=<F2>
 
+"折叠设置
+set fdm=marker " 对文中的标志折叠
+set fdc=2
+
 " When I close a tab, remove the buffer
 set nohidden
 
@@ -65,11 +87,14 @@ set autoindent
 let g:clipbrdDefaultReg = '+'
 
 " <TAB> 自动转换为4个空格
-set smarttab
-set expandtab
 set tabstop=4
+" 统一缩进为4个空格
 set softtabstop=4
 set shiftwidth=4
+" 在行和段开始处使用制表符
+set smarttab
+
+set expandtab
 
 " 不创建备份文件
 set nobackup
@@ -105,6 +130,17 @@ let mapleader=","
 
 " 去除上次搜索后的高亮
 nnoremap <leader><space> :noh<cr>
+
+"tagbar的启动
+nmap <leader>b :TagbarToggle<CR>
+
+"设置界面分割
+"let g:winManagerWindowLayout = "BufExplorer,FileExplorer|TagList"
+let g:winManagerWindowLayout = "FileExplorer|TagList,BufExplorer"
+"设置winmanager的宽度，默认为25
+let g:winManagerWidth = 30
+"定义打开关闭winmanager按键
+nnoremap <leader>u :WMToggle<cr>
 
 " Up and down are more logical with g..
 nnoremap <silent> k gk
@@ -208,6 +244,8 @@ function! Set_php_options()
     map <leader>t :!phpunit %<cr>
     map <leader>T :!phpunit --filter <C-R><C-W> %<cr>
     map <leader>c :!php -l %<CR>
+    set dictionary-=~/.vim/php_funclist.txt dictionary+=~/.vim/php_funclist.txt
+    set complete-=k complete+=k
 endfunction
 function! Set_lua_options() 
     map <leader>c :!luac -p %<CR>
@@ -241,22 +279,24 @@ au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 
 
 map <leader>l :Tlist<cr>
-map <leader>t :tabs<cr>
+map <leader>a :TagbarToggle<CR>
+nmap <F9> :tabs<CR>
 
 
 " OmniCppComplete
 au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
-set tags=./tags;/
+set tags=./tags
 set tags+=~/.vim/bundle/OmniCppComplete/tags/cpp
-let OmniCpp_NamespaceSearch = 1
+let OmniCpp_NamespaceSearch = 1 " 打开命名空间
 let OmniCpp_GlobalScopeSearch = 1
 let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters | 打开显示函数原型
+let OmniCpp_MayCompleteDot = 1 " autocomplete after . | 打开  . 操作符
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after -> | 打开 -> 操作符
+let OmniCpp_MayCompleteScope = 1 " autocomplete after :: | 打开 :: 操作符
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 let OmniCpp_SelectFirstItem = 1
+let OmniCpp_ShowScopeInAbbr = 0
 
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -268,7 +308,7 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 
 " automatically open and close the popup menu / preview window
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-set completeopt=menuone,menu,longest,preview
+set completeopt=menuone,menu,longest,preview " 关掉智能补全时的预览窗口.缺省的，vim会使用下拉菜单和一个preview窗口(预览窗口)来显示匹配项目，下拉菜单列出所有匹配的项目，预览窗口则显示选中项目的详细信息。打开预览窗口会导致下拉菜单抖动，因此我一般都去掉预览窗口的显示，这需要改变’completeopt‘的值。
 
 "-------------------------------------------------------------------------------
 " comma always followed by a space
