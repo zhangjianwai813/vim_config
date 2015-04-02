@@ -17,15 +17,17 @@ set t_Co=256
 "set iskeyword=@,48-57,_,-,192-255,#
 set iskeyword=@,48-57,_,192-255
 
-if isdirectory("/Users/yeyongfa")
-    "set runtimepath=/Users/oylbin/local/oylbin/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/oylbin/local/oylbin/vim
-    set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
-    filetype off
-    " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
-    if has("unix")
-        silent! call pathogen#runtime_append_all_bundles()
-    endif
-endif
+"设置运行目录
+set runtimepath=~/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/\.vim/after
+"if isdirectory("/Users/mfw")
+    ""set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
+    "set runtimepath=/Users/mfw/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/mfw/\.vim/after
+    "filetype off
+    "" http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+    "if has("unix")
+        "silent! call pathogen#runtime_append_all_bundles()
+    "endif
+"endif
 
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
@@ -33,12 +35,16 @@ let Tlist_Ctags_Cmd="/usr/local/bin/ctags"
 
 "设置vim-airline
 set laststatus=2
+"开启tabline
 let g:airline#extensions#tabline#enabled = 1
+"tabline中当前buffer两端的分隔符
 let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+"tabline为激活的buffer的两端字符
+let g:airline#extensions#tabline#left_alt_sep = '>'
+
 let g:airline_theme='powerlineish'
-let g:airline_enable_branch     = 1
-let g:airline_enable_syntastic  = 1
+"let g:airline_enable_branch     = 1
+"let g:airline_enable_syntastic  = 1
 "let g:airline_theme='kolor'
 let g:tagbar_ctags_bin="/usr/local/bin/ctags"
 
@@ -69,6 +75,26 @@ set pastetoggle=<F2>
 "折叠设置
 set fdm=marker " 对文中的标志折叠
 set fdc=2
+
+"行控制
+set linebreak " 英文单词在换行时不被截断
+set textwidth=119 " 设置每行119个字符自动换行，加上换行符
+"set wrap " 设置自动折行
+set formatoptions=tcrwa "q：允许使用"gq"命令对注释进行格式化；r：插入模式下在注释中键入回车时，插入合适的注释起始字符；n：识别编号列表，编号行的下一行的缩进由数字后的空白决定（与"2"冲突，需要"autoindent"）；t：根据textwidth自动折行；
+set colorcolumn=120
+let g:indent_guides_guide_size=1
+
+"光标当前列高亮
+map ,ch :call SetColorColumn()<CR>
+function! SetColorColumn()
+    let col_num = virtcol(".")
+    let cc_list = split(&cc, ',')
+    if count(cc_list, string(col_num)) <= 0
+        execute "set cc+=".col_num
+    else
+        execute "set cc-=".col_num
+    endif
+endfunction
 
 " When I close a tab, remove the buffer
 set nohidden
@@ -157,10 +183,6 @@ nnoremap <leader>v V`]
 "inoremap <Esc> <nop>
 " This is totally awesome - remap jj to escape in insert mode.  You'll never type jj anyway, so it's great!
 inoremap jj <Esc>
-
-"set textwidth=79
-"set formatoptions=qrn1
-"set colorcolumn=85
 
 "au BufRead,BufNewFile *.mk		set ft=markdown
 
@@ -373,3 +395,14 @@ let g:ctrlp_map = '<C-p>'
 "    au BufEnter *.markdown setlocal foldexpr=MarkdownLevel()  
 "    au BufEnter *.markdown setlocal foldmethod=expr  
 "endif
+"
+"
+"语法检查插件设置
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0

@@ -1814,7 +1814,7 @@ function! s:InitWindow(autoclose) abort
     setlocal nolist
     setlocal nowrap
     setlocal winfixwidth
-    setlocal textwidth=0
+    "setlocal textwidth=0
     setlocal nospell
 
     if g:tagbar_show_linenumbers == 0
