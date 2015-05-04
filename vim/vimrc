@@ -17,6 +17,8 @@ set t_Co=256
 "set iskeyword=@,48-57,_,-,192-255,#
 set iskeyword=@,48-57,_,192-255
 
+"设置运行目录
+"set runtimepath=~/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/\.vim/after
 if isdirectory("/Users/mfw")
     "set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
     set runtimepath=/Users/mfw/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/mfw/\.vim/after
@@ -348,7 +350,7 @@ set completeopt=menuone,menu,longest,preview " 关掉智能补全时的预览窗
 "
 "-------------------------------------------------------------------------------
 " autocomplete quotes (visual and select mode)
-"-------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------_
 "xnoremap  '  s''<Esc>P<Right>
 "xnoremap  "  s""<Esc>P<Right>
 "xnoremap  `  s``<Esc>P<Right>
@@ -396,11 +398,11 @@ let g:ctrlp_map = '<C-p>'
 "
 "
 "语法检查插件设置
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0

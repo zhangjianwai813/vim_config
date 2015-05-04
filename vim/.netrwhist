@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/data/work/phalcon/mystique_api/app'
-let g:netrw_dirhist_2='/data/work/phalcon/mystique_api/app/lib'
-let g:netrw_dirhist_3='/data/work/phalcon/mystique_api/app/lib/SearchData'
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/data/work/trunk/www2011'
+let g:netrw_dirhist_2='/data/work/trunk/www2011/template'
+let g:netrw_dirhist_3='/data/work/trunk/www2011/template/admin'
+let g:netrw_dirhist_4='/data/work/trunk/www2011/template/admin/gonglve'
+let g:netrw_dirhist_5='/data/work/trunk/mobile'
+let g:netrw_dirhist_6='/data/work/trunk/mobile/app'

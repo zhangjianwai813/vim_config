@@ -18,16 +18,21 @@ set t_Co=256
 set iskeyword=@,48-57,_,192-255
 
 "设置运行目录
-set runtimepath=~/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/\.vim/after
-"if isdirectory("/Users/mfw")
-    ""set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
-    "set runtimepath=/Users/mfw/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/mfw/\.vim/after
-    "filetype off
-    "" http://stevelosh.com/blog/2010/09/coming-home-to-vim/
-    "if has("unix")
-        "silent! call pathogen#runtime_append_all_bundles()
-    "endif
-"endif
+"set runtimepath=~/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/\.vim/after
+if isdirectory("/Users/mfw")
+    "set runtimepath=/Users/yeyongfa/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/yeyongfa/\.vim/after
+    set runtimepath=/Users/mfw/\.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,/Users/mfw/\.vim/after
+    filetype off
+    " http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+    if has("unix")
+        silent! call pathogen#runtime_append_all_bundles()
+    endif
+endif
+
+" Highlight current line 设置光标所在行和列高亮
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+set cursorline cursorcolumn
 
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
@@ -215,6 +220,15 @@ if v:version >= 702
             execute '!lua %'
         endif
     endfunction
+
+    map ,; :call End_of_php()<CR>
+
+    "function End_of_php()
+        "if &filetype == 'php'
+            
+        "endif
+    "endfunction
+
 endif
 
 map <F4> :Ack <C-R><C-W> .
@@ -317,7 +331,7 @@ let OmniCpp_MayCompleteDot = 1 " autocomplete after . | 打开  . 操作符
 let OmniCpp_MayCompleteArrow = 1 " autocomplete after -> | 打开 -> 操作符
 let OmniCpp_MayCompleteScope = 1 " autocomplete after :: | 打开 :: 操作符
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-let OmniCpp_SelectFirstItem = 1
+let OmniCpp_SelectFirstItem = 3
 let OmniCpp_ShowScopeInAbbr = 0
 
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -350,7 +364,7 @@ set completeopt=menuone,menu,longest,preview " 关掉智能补全时的预览窗
 "
 "-------------------------------------------------------------------------------
 " autocomplete quotes (visual and select mode)
-"-------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------_
 "xnoremap  '  s''<Esc>P<Right>
 "xnoremap  "  s""<Esc>P<Right>
 "xnoremap  `  s``<Esc>P<Right>
@@ -380,6 +394,24 @@ map <right> gt
 
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_map = '<C-p>'
+
+" ctrap 搜索
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+if executable('ag')
+    " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    " Use ag in CtrlP for listing files.
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " Ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
+" Run commands that require an interactive shell
+"nnoremap <Leader>s :RunInInteractiveShell<space>
+
 "set ffs=unix,mac,dos
 
 "function! MarkdownLevel() 
@@ -398,11 +430,11 @@ let g:ctrlp_map = '<C-p>'
 "
 "
 "语法检查插件设置
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
