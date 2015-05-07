@@ -263,10 +263,10 @@ map <C-H> gT
 map <C-L> gt
 
 "标签左右切换
-"map <left> gT
-"map <right> gt
-map nn gT
-map mm gt
+map <left> gT
+map <right> gt
+map mn gT
+map nm gt
 
 "行尾
 map ff $
@@ -389,8 +389,6 @@ if has("gui_running")
 endif
 
 let g:lua_complete_omni = 0
-map <left> gT
-map <right> gt
 
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_map = '<C-p>'
@@ -408,6 +406,13 @@ if executable('ag')
     " Ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
 endif
+
+"模板插件配置
+let g:templates_directory = ['~/.vim/bundle/vim-template/templates']
+let g:email = 'zhangjianwai813@gmail.com'
+let g:username = 'yeyongfa'
+"let g:templates_plugin_loaded = 1 "关闭自动加载模板
+
 
 " Run commands that require an interactive shell
 "nnoremap <Leader>s :RunInInteractiveShell<space>
